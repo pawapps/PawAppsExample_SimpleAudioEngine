@@ -3,8 +3,9 @@
 //  PawAppsExample_SimpleAudioEngine
 //
 //  Created by Jason Pawlak on 7/28/11.
-//  Copyright __MyCompanyName__ 2011. All rights reserved.
+//  Copyright Paw Apps LLC 2011. All rights reserved.
 //
+//  Visit http://www.pawapps.com for more tutorials!
 
 
 // When you import this file, you import all the cocos2d classes
@@ -17,5 +18,6 @@
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
+-(void) buttonPressed;
 
 @end

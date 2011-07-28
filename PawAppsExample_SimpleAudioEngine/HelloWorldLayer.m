@@ -3,12 +3,14 @@
 //  PawAppsExample_SimpleAudioEngine
 //
 //  Created by Jason Pawlak on 7/28/11.
-//  Copyright __MyCompanyName__ 2011. All rights reserved.
+//  Copyright Paw Apps LLC 2011. All rights reserved.
 //
+//  Visit http://www.pawapps.com for more tutorials!
 
 
 // Import the interfaces
 #import "HelloWorldLayer.h"
+#import "SimpleAudioEngine.h"   // <--- Make sure you import the header
 
 // HelloWorldLayer implementation
 @implementation HelloWorldLayer
@@ -28,36 +30,42 @@
 	return scene;
 }
 
-// on "init" you need to initialize your instance
 -(id) init
 {
-	// always call "super" init
-	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
+        
+        // This is what we are here for. First we preload the effect so that
+        // it plays immediately when we touch and release the button.
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"soundeffect.mp3"];
 		
-		// create and initialize a Label
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
-
-		// ask director the the window size
-		CGSize size = [[CCDirector sharedDirector] winSize];
-	
-		// position the label on the center of the screen
-		label.position =  ccp( size.width /2 , size.height/2 );
+        // What are the dimensions of the screen
+        CGSize winSize = [[CCDirector sharedDirector] winSize];
+        
+        // Create a button to press
+        CCMenuItemLabel *miLabel = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:[NSString stringWithFormat:@"Touch me!"] fontName:@"Marker Felt" fontSize:24] target:self selector:@selector(buttonPressed)];
+        
+        // Create a menu for the button
+        CCMenu *menu = [CCMenu menuWithItems:miLabel, nil];
+        [menu setPosition:ccp(winSize.width/2, winSize.height/2)];
+        
+        // Add the menu to the layer
+        [self addChild:menu];
 		
-		// add the label as a child to this Layer
-		[self addChild: label];
 	}
 	return self;
 }
 
-// on "dealloc" you need to release all your retained objects
+-(void) buttonPressed {
+    
+    CCLOG(@"The button was pressed!");
+    
+    // Just call the sound effect, it'll play quickly since it has been preloaded
+    [[SimpleAudioEngine sharedEngine] playEffect:@"soundeffect.mp3"];
+    
+}
+
 - (void) dealloc
 {
-	// in case you have something to dealloc, do it in this method
-	// in this particular example nothing needs to be released.
-	// cocos2d will automatically release all the children (Label)
-	
-	// don't forget to call "super dealloc"
 	[super dealloc];
 }
 @end
